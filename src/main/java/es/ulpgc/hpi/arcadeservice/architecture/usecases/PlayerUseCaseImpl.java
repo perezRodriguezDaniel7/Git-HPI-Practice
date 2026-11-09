@@ -29,6 +29,11 @@ public final class PlayerUseCaseImpl implements PlayerUseCase {
 
     @Override
     public Player create(String nickname) {
+        for (Player ply: this.list()) {
+            if (nickname.equals(ply.nickname())) {
+                throw new IllegalArgumentException("This name is already selected.");
+            }
+        }
         var player = PlayerFactory.create(nickname, nextId::getAndIncrement);
         repository.save(player);
         return player;
